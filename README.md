@@ -1,2 +1,2 @@
-# Black_Hole_Simulation
-Code für Website, die Simulation von Schwarzen Löchern darstellt.
+# Black_Hole_Backend
+Code für Backend der Webseite, die Simulation von Schwarzen Löchern darstellt.
