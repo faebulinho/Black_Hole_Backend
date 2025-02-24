@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schwarze Löcher API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            display: inline-block;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Schwarze Löcher API</h1>
+    <p>Gib den Namen eines Schwarzen Lochs ein, um Informationen zu erhalten:</p>
+
+    <input type="text" id="blackHoleName" placeholder="z.B. Mrk335">
+    <button onclick="fetchBlackHoleInfo()">Suchen</button>
+    <!-- Ergebnis-Anzeige -->
+    <div id="result" class="result-box"></div>
+
+
+    <script>
+        async function fetchBlackHoleInfo() {
+            const name = document.getElementById("blackHoleName").value.trim();
+            const resultDiv = document.getElementById("result");
+
+            if (!name) {
+                resultDiv.innerHTML = "<p style='color: red;'>Bitte gib einen Namen ein!</p>";
+                return;
+            }
+
+            resultDiv.innerHTML = "<p>Lade Daten...</p>";
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/v1/blackholes/${name}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <h2>${data.name}</h2>
+                        <p><strong>Masse:</strong> ${data.mass}</p>
+                        <p><strong>Quelle:</strong> <a href="${data.source}" target="_blank">${data.source}</a></p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<p style='color: red;'>Fehler: ${data.error || "Daten nicht gefunden"}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p style='color: red;'>Fehler beim Abrufen der Daten.</p>`;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
