@@ -1,229 +1,230 @@
 # Black_Hole_Backend
 
-A TypeScript-based REST API that provides information about black holes, along with user management functionality. The API scrapes data from reliable sources and serves it through a well-documented interface.
+Eine auf TypeScript basierende REST-API, die Informationen über Schwarze Löcher bereitstellt und zusätzlich eine Benutzerverwaltung umfasst. Die API sammelt Daten aus zuverlässigen Quellen und stellt sie über eine gut dokumentierte Schnittstelle bereit.
 
-## Project Structure
+## Projektstruktur
 
 ```
 Black_Hole_Backend/
 ├── src/
 │   ├── config/
-│   │   └── swagger.ts           # Swagger configuration
+│   │   └── swagger.ts           # Swagger-Konfiguration
 │   ├── controllers/
-│   │   ├── blackHoleController.ts   # Black hole data handling
-│   │   ├── infoController.ts        # System info endpoints
-│   │   └── userController.ts        # User management
+│   │   ├── blackHoleController.ts   # Verwaltung der Schwarze-Löcher-Daten
+│   │   ├── infoController.ts        # Systeminformationen
+│   │   └── userController.ts        # Benutzerverwaltung
 │   ├── routes/
 │   │   ├── blackHoleRoutes.ts
 │   │   ├── infoRoutes.ts
 │   │   └── userRoutes.ts
 │   ├── services/
-│   │   └── blackHoleService.ts      # Black hole data scraping
+│   │   └── blackHoleService.ts      # Daten-Scraping für Schwarze Löcher
 │   ├── scripts/
-│   │   └── generate-swagger.ts      # Swagger docs generation
-│   └── app.ts                       # Main application file
-├── .env                            # Environment variables
-├── .gitignore                      # Git ignore file
-├── package.json                    # Project dependencies
-├── tsconfig.json                   # TypeScript configuration
-└── README.md                       # This file
+│   │   └── generate-swagger.ts      # Generierung der Swagger-Dokumentation
+│   └── app.ts                       # Hauptanwendungsdatei
+├── .env                            # Umgebungsvariablen
+├── .gitignore                      # Git-Ignore-Datei
+├── package.json                    # Projektabhängigkeiten
+├── tsconfig.json                   # TypeScript-Konfiguration
+└── README.md                       # Diese Datei
 ```
 
-## Technologies Used
+## Verwendete Technologien
 
-### Core Technologies
+### Kerntechnologien
 
-- **TypeScript**: Provides strong typing and modern JavaScript features
-- **Express.js**: Fast, unopinionated web framework for Node.js
-- **Node.js**: JavaScript runtime for server-side execution
+- **TypeScript**: Statische Typisierung und moderne JavaScript-Funktionen
+- **Express.js**: Schnelles und minimalistisches Web-Framework für Node.js
+- **Node.js**: JavaScript-Laufzeitumgebung für Serveranwendungen
 
-### Documentation & API Design
+### Dokumentation & API-Design
 
-- **Swagger/OpenAPI**: API documentation and testing interface
-- **swagger-jsdoc**: Generates Swagger documentation from JSDoc comments
-- **swagger-ui-express**: Serves Swagger UI for API testing
+- **Swagger/OpenAPI**: API-Dokumentation und Testoberfläche
+- **swagger-jsdoc**: Generierung der Swagger-Dokumentation aus JSDoc-Kommentaren
+- **swagger-ui-express**: Bereitstellung der Swagger UI zur API-Tests
 
-### Data Processing
+### Datenverarbeitung
 
-- **axios**: HTTP client for making requests
-- **cheerio**: Web scraping library for parsing HTML
+- **axios**: HTTP-Client für Anfragen an externe Quellen
+- **cheerio**: Web-Scraping-Bibliothek zur HTML-Analyse
 
-### Development Tools
+### Entwicklungstools
 
-- **ts-node-dev**: Development server with hot reload
-- **ESLint**: Code linting
-- **dotenv**: Environment variable management
+- **ts-node-dev**: Entwicklungsserver mit automatischem Neustart
+- **ESLint**: Code-Linter
+- **dotenv**: Verwaltung von Umgebungsvariablen
 
-## Prerequisites
+## Voraussetzungen
 
-- Node.js (v14 or higher)
-- npm (v6 or higher)
+- Node.js (Version 14 oder höher)
+- npm (Version 6 oder höher)
 
 ## Installation
 
-1. Clone the repository:
+1. Repository klonen:
 
 ```bash
 git clone https://github.com/yourusername/Black_Hole_Backend.git
 cd Black_Hole_Backend
 ```
 
-2. Install dependencies:
+2. Abhängigkeiten installieren:
 
 ```bash
 npm install
 ```
 
-3. Create a `.env` file in the root directory:
+3. `.env`-Datei im Hauptverzeichnis erstellen:
 
 ```env
 PORT=8080
 NODE_ENV=development
 ```
 
-## Running the Application
+## Anwendung starten
 
-### Development Mode
+### Entwicklungsmodus
 
 ```bash
 npm run dev
 ```
 
-This will start the server with hot reload enabled.
+Startet den Server mit Hot-Reloading.
 
-### Production Mode
+### Produktionsmodus
 
 ```bash
 npm start
 ```
 
-This will:
+Dies wird:
 
-1. Generate the latest Swagger documentation
-2. Compile TypeScript to JavaScript
-3. Start the server
+1. Die neueste Swagger-Dokumentation generieren
+2. TypeScript nach JavaScript kompilieren
+3. Den Server starten
 
-## API Documentation
+## API-Dokumentation
 
-The API documentation is available through Swagger UI when the server is running:
+Die API-Dokumentation ist verfügbar unter:
 
 ```
 http://localhost:8080/api-docs
 ```
 
-### Available Endpoints
+### Verfügbare Endpunkte
 
-#### Black Hole Information
+#### Informationen über Schwarze Löcher
 
-- `GET /api/v1/blackholes/{name}`: Get information about a specific black hole
-  - Example: `GET /api/v1/blackholes/Sagittarius%20A*`
+- `GET /api/v1/blackholes/{name}`: Abrufen von Informationen über ein bestimmtes Schwarzes Loch
+  - Beispiel: `GET /api/v1/blackholes/Sagittarius%20A*`
 
-#### System Information
+#### Systeminformationen
 
-- `GET /api/v1/info/datetime`: Get current server date and time
-- `GET /api/v1/info/version`: Get API version information
+- `GET /api/v1/info/datetime`: Aktuelles Serverdatum und -zeit abrufen
+- `GET /api/v1/info/version`: API-Versionsinformationen abrufen
 
-#### User Management
+#### Benutzerverwaltung
 
-- `GET /api/v1/users/name`: Get user name information
+- `GET /api/v1/users/name`: Benutzernamen abrufen
 
-## Development
+## Entwicklung
 
-### Adding New Endpoints
+### Neue Endpunkte hinzufügen
 
-1. Create a controller in `src/controllers/`
-2. Add JSDoc comments for Swagger documentation
-3. Create corresponding routes in `src/routes/`
-4. Register routes in `app.ts`
+1. Controller in `src/controllers/` erstellen
+2. JSDoc-Kommentare für die Swagger-Dokumentation hinzufügen
+3. Entsprechende Route in `src/routes/` erstellen
+4. Route in `app.ts` registrieren
 
-Example controller with Swagger documentation:
+Beispiel-Controller mit Swagger-Dokumentation:
 
 ```typescript
 /**
  * @swagger
  * /api/v1/your-endpoint:
  *   get:
- *     summary: Your endpoint description
+ *     summary: Beschreibung des Endpunkts
  *     responses:
  *       200:
- *         description: Success response
+ *         description: Erfolgreiche Antwort
  */
 export class YourController {
-  // Implementation
+  // Implementierung
 }
 ```
 
-### Generating Documentation
+### Dokumentation generieren
 
-Documentation is automatically generated when starting the server, but you can manually generate it:
+Die Dokumentation wird automatisch beim Start des Servers generiert, kann aber auch manuell erstellt werden:
 
 ```bash
 npm run generate-docs
 ```
 
-## Scripts
+## Skripte
 
-- `npm run dev`: Start development server with hot reload
-- `npm run build`: Compile TypeScript to JavaScript
-- `npm start`: Build and start production server
-- `npm run generate-docs`: Generate Swagger documentation
-- `npm run lint`: Run ESLint
+- `npm run dev`: Entwicklungsserver starten
+- `npm run build`: TypeScript nach JavaScript kompilieren
+- `npm start`: Produktionsserver starten
+- `npm run generate-docs`: Swagger-Dokumentation generieren
+- `npm run lint`: ESLint ausführen
 
-## Error Handling
+## Fehlerbehandlung
 
-The API uses standard HTTP status codes:
+Die API verwendet standardisierte HTTP-Statuscodes:
 
-- 200: Success
-- 400: Bad Request
-- 404: Not Found
-- 500: Server Error
+- 200: Erfolg
+- 400: Ungültige Anfrage
+- 404: Nicht gefunden
+- 500: Serverfehler
 
-Example error response:
+Beispiel-Antwort bei einem Fehler:
 
 ```json
 {
-  "error": "Error message",
-  "details": "Additional error details"
+  "error": "Fehlermeldung",
+  "details": "Zusätzliche Informationen"
 }
 ```
 
-## Contributing
+## Beitragen
 
-1. Create a feature branch
-2. Make your changes
-3. Add/update Swagger documentation
-4. Test all endpoints
-5. Submit a pull request
+1. Feature-Branch erstellen
+2. Änderungen vornehmen
+3. Swagger-Dokumentation aktualisieren
+4. Alle Endpunkte testen
+5. Pull-Request einreichen
 
-## Testing
+## Tests
 
-To run tests (when implemented):
+Um Tests auszuführen (falls implementiert):
 
 ```bash
 npm test
 ```
 
-## Future Improvements
+## Zukünftige Verbesserungen
 
-- Add database integration for storing black hole data
-- Implement caching for frequently requested black hole information
-- Add rate limiting for API endpoints
-- Expand black hole information fields (e.g., event horizon size, distance from Earth)
-- Add user authentication and authorization
-- Add more comprehensive error handling
-- Implement logging system for better debugging
-- Add more data sources for black hole information
+- Integration einer Datenbank für Schwarze-Löcher-Daten
+- Caching für häufig angefragte Informationen
+- Rate-Limiting für API-Anfragen
+- Erweiterung der Schwarze-Löcher-Informationen (z. B. Ereignishorizont-Größe, Entfernung zur Erde)
+- Benutzer-Authentifizierung und -Autorisierung
+- Verbesserte Fehlerbehandlung
+- Logging-System zur Fehleranalyse
+- Zusätzliche Datenquellen für Schwarze-Löcher-Daten
 
-## License
+## Lizenz
 
 MIT License
 
-## Author
+## Autor
 
-Your Name
+Dein Name
 
-## Acknowledgments
+## Danksagungen
 
-- Wikipedia for black hole data
-- Express.js community
-- TypeScript team
+- Wikipedia für Schwarze-Löcher-Daten
+- Express.js-Community
+- TypeScript-Team
+
