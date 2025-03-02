@@ -187,13 +187,6 @@ Beispiel-Antwort bei einem Fehler:
 }
 ```
 
-## Beitragen
-
-1. Feature-Branch erstellen
-2. Änderungen vornehmen
-3. Swagger-Dokumentation aktualisieren
-4. Alle Endpunkte testen
-5. Pull-Request einreichen
 
 ## Tests
 
@@ -202,29 +195,4 @@ Um Tests auszuführen (falls implementiert):
 ```bash
 npm test
 ```
-
-## Zukünftige Verbesserungen
-
-- Integration einer Datenbank für Schwarze-Löcher-Daten
-- Caching für häufig angefragte Informationen
-- Rate-Limiting für API-Anfragen
-- Erweiterung der Schwarze-Löcher-Informationen (z. B. Ereignishorizont-Größe, Entfernung zur Erde)
-- Benutzer-Authentifizierung und -Autorisierung
-- Verbesserte Fehlerbehandlung
-- Logging-System zur Fehleranalyse
-- Zusätzliche Datenquellen für Schwarze-Löcher-Daten
-
-## Lizenz
-
-MIT License
-
-## Autor
-
-Dein Name
-
-## Danksagungen
-
-- Wikipedia für Schwarze-Löcher-Daten
-- Express.js-Community
-- TypeScript-Team
 
