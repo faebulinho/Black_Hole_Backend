@@ -61,6 +61,10 @@ import { blackHoleService } from "../services/blackHoleService";
  *                 details:
  *                   type: string
  */
+
+
+
+// Controller für API-Abfagen an Endpoint /blackholes/{name}
 export class BlackHoleController {
   public async getBlackHoleInfo(req: Request, res: Response): Promise<void> {
     try {

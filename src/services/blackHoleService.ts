@@ -9,7 +9,7 @@ export interface BlackHoleInfo {
   source: string;
   error?: string;
 }
-
+// Klasse die Datascraped
 export class BlackHoleService {
   private readonly baseUrl = "https://www.astro.gsu.edu/AGNmass/";
 
@@ -58,7 +58,7 @@ export class BlackHoleService {
       // Die Zeilennummer des gefundenen Namens holen
       const rowIndex = blackHoleRows[name];
 
-      // XPath für die Masse generieren (Spalte 3)
+      // XPath(Ort auf der Webseite) für die Masse generieren (Spalte 3)
       const massXPath = `/html/body/font/center/form[2]/font/font/center/table/tbody/tr[${rowIndex}]/td[3]`;
 
       // Masse auslesen
