@@ -1,3 +1,5 @@
+// Controller für Userinfo, wird für Anmeldung gebraucht werden
+
 import { Request, Response } from "express";
 
 /**
@@ -37,12 +39,18 @@ import { Request, Response } from "express";
  *                   type: string
  *                   description: Error message
  */
+
+
+// Controller für Benutzerbezogene API-Anfragen
 export class UserController {
+  // Endpunkt zum Abrufen des Benutzernamens
   public getUserName(req: Request, res: Response): void {
     res.json({
-      name: "User Name Lauch",
+      name: "User Name Lauch", // Beispielhafter Benutzername
     });
   }
 }
 
+// Erstelle eine Instanz des Controllers für den Export
 export const userController = new UserController();
+

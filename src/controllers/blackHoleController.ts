@@ -64,25 +64,31 @@ import { blackHoleService } from "../services/blackHoleService";
 
 
 
-// Controller für API-Abfagen an Endpoint /blackholes/{name}
+// Controller für API-Anfragen zum Abrufen von Informationen über ein Schwarzes Loch anhand seines Namens
 export class BlackHoleController {
   public async getBlackHoleInfo(req: Request, res: Response): Promise<void> {
     try {
+      // Extrahiere den Namen des Schwarzen Lochs aus der URL
       const name = req.params.name;
       if (!name) {
+        // Falls kein Name angegeben wurde, sende eine Fehlermeldung mit Status 400 (Bad Request)
         res.status(400).json({ error: "Black hole name is required" });
         return;
       }
 
+      // Rufe die Informationen zum Schwarzen Loch aus dem Service ab
       const info = await blackHoleService.getBlackHoleInfo(name);
 
+      // Falls keine Daten gefunden wurden, sende eine 404-Fehlermeldung (Not Found)
       if (info.error) {
         res.status(404).json(info);
         return;
       }
 
+      // Sende die gefundenen Informationen als JSON-Antwort zurück
       res.json(info);
     } catch (error) {
+      // Fehlerbehandlung bei  Problemen
       console.error("Error fetching black hole info:", error);
       res.status(500).json({
         error: "Failed to fetch black hole information",
@@ -92,4 +98,5 @@ export class BlackHoleController {
   }
 }
 
+// Erstelle eine Instanz des Controllers für den Export
 export const blackHoleController = new BlackHoleController();

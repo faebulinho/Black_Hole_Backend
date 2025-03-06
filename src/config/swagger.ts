@@ -1,3 +1,8 @@
+// Konfiguriert Swagger für die API-Dokumentation der Black Hole API  
+// Definiert die OpenAPI-Spezifikation, einschließlich Titel, Version, Beschreibung und Server-URL  
+// Scannt die angegebenen Dateien  zur automatischen Dokumentation  
+
+
 import swaggerJsdoc from "swagger-jsdoc";
 
 const options = {

@@ -1,3 +1,6 @@
+// Dieses Skript generiert eine Swagger-Dokumentationsdatei (swagger.json)  
+// Die Datei enthält die OpenAPI-Spezifikation und wird automatisch aus der Konfiguration erstellt  
+// Für unsere Webseite keine Funktion, nur Hilfreich um Backend zu erstellen/verbessern
 import fs from "fs";
 import { swaggerSpec } from "../config/swagger";
 
