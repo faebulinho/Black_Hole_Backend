@@ -1,3 +1,4 @@
+//Datenbankenfile wird für Milestone I nicht gebraucht
 import mysql from 'mysql2';
 
 // Erstelle die MySQL-Verbindung

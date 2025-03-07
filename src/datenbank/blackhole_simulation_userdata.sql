@@ -1,5 +1,7 @@
 -- MySQL dump 10.13  Distrib 9.2.0, for macos15.2 (arm64)
 --
+--Wird für Milestone I nicht gebraucht
+--
 -- Host: localhost    Database: blackhole_simulation_userdata
 -- ------------------------------------------------------
 -- Server version	9.2.0

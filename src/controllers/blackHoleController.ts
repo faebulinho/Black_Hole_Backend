@@ -1,5 +1,10 @@
+// Klasse für Controller für API-Anfragen zum Abrufen von Informationen über ein Schwarzes Loch anhand seines Namens
+
 import { Request, Response } from "express";
 import { blackHoleService } from "../services/blackHoleService";
+
+
+//Kommentar für automatische Swagger Dokumentation
 
 /**
  * @swagger

@@ -1,3 +1,5 @@
+//Klasse für Funktion von Enpoint (Data Scraping wird hier gemacht)
+
 // Importiere Puppeteer für zum Scrapen
 import puppeteer from "puppeteer";
 

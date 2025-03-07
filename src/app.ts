@@ -1,3 +1,5 @@
+//App File der alle Routen, Controller und Services verwendet, um Backend laufen zu lasssen
+
 // Importiere benötigte Module und Abhängigkeiten
 import express, { Express, Request, Response, NextFunction } from "express";
 import swaggerUi from "swagger-ui-express";

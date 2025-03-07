@@ -2,10 +2,11 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
-const connection = require('./db');  // Importiere die MySQL-Verbindung
+const connection = require('./src/db');  // Importiere die MySQL-Verbindung
 require('dotenv').config();  // Lädt die Umgebungsvariablen aus der .env-Datei
 
 const app = express();
+const port = 3000;
 
 // Middleware, um den Body der Anfrage zu parsen
 app.use(bodyParser.json());

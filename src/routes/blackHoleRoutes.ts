@@ -1,7 +1,7 @@
 // Route für Informationen der Schwarzen Löcher
 
-import { Router } from "express"; // Importiert den Router von Express für die Definition von Routen
-import { blackHoleController } from "../controllers/blackHoleController"; // Importiert den Controller, der die Logik für die Routen verarbeitet
+import { Router } from "express";
+import { blackHoleController } from "../controllers/blackHoleController";
 
 const router = Router(); // Erstellt eine neue Router-Instanz
 
