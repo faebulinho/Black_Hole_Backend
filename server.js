@@ -1,3 +1,6 @@
+//Nicht für Milestone I wichtig
+//Nicht der eigentliche Server des Backends, wird verwendet, um Bentuzerverwaltung zu implementieren
+
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
