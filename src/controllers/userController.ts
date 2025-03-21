@@ -42,15 +42,19 @@ import { Request, Response } from "express";
 
 
 // Controller für Benutzerbezogene API-Anfragen
-export class UserController {
-  // Endpunkt zum Abrufen des Benutzernamens
-  public getUserName(req: Request, res: Response): void {
-    res.json({
-      name: "User Name Lauch", // Beispielhafter Benutzername
-    });
-  }
-}
+import { fetchUserInfo } from '../services/userService';
 
-// Erstelle eine Instanz des Controllers für den Export
-export const userController = new UserController();
+export const getUserInfo = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const userInfo = await fetchUserInfo(userId);
+    if (!userInfo) {
+      return res.status(404).json({ message: 'Benutzer nicht gefunden' });
+    }
+    res.status(200).json(userInfo);
+  } catch (error) {
+    console.error('Fehler beim Abrufen der Benutzerinformationen:', error);
+    res.status(500).json({ message: 'Interner Serverfehler' });
+  }
+};
 

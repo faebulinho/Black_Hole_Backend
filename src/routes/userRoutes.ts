@@ -1,15 +1,11 @@
-// User Endpoint für zukünfitge Anmeldung mit Passwort usw.
+import express from 'express';
+import { getUserInfo } from '../controllers/userController';
 
-// Importiert den Router von Express, um Endpunkte zu definieren
-import { Router } from "express";
-import { userController, UserController } from "../controllers/userController";
+const router = express.Router();
 
-// Erstellt eine neue Instanz eines Express-Routers
-const router = Router();
+// Route zum Abrufen von Benutzerinformationen
+router.get('/:userId', getUserInfo);
 
-// Definiert eine GET-Route für "/name", die die Methode getUserName aufruft
-router.get("/name", userController.getUserName);
-
-// Exportiert die Router-Instanz unter dem Namen "userRoutes"
 export { router as userRoutes };
+
 
