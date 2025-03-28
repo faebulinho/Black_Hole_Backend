@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  first_name    String
+  last_name     String
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+}
+
+model Particle {
+  id         Int      @id @default(autoincrement())
+  name       String?
+  a          Float // Spin value
+  m          Float // Mass value
+  created_at DateTime @default(now())
+}
