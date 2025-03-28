@@ -10,9 +10,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["src/*"],
+      "@prisma/*": ["prisma/*"]
     }
   },
   "include": ["src/**/*"],

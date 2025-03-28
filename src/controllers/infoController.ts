@@ -1,5 +1,12 @@
 import { Request, Response } from "express";
 
+/**
+ * @swagger
+ * tags:
+ *   name: Info
+ *   description: API endpoints for system information
+ */
+
 export class InfoController {
   /**
    * @swagger
@@ -7,8 +14,7 @@ export class InfoController {
    *   get:
    *     summary: Get current date and time
    *     description: Returns the current server date and time along with timezone information
-   *     tags:
-   *       - Info
+   *     tags: [Info]
    *     responses:
    *       200:
    *         description: Successful response
@@ -37,8 +43,7 @@ export class InfoController {
    *   get:
    *     summary: Get API version information
    *     description: Returns the current API version and environment information
-   *     tags:
-   *       - Info
+   *     tags: [Info]
    *     responses:
    *       200:
    *         description: Successful response

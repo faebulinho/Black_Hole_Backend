@@ -1,71 +1,52 @@
 import { Request, Response } from "express";
 import { blackHoleService } from "../services/blackHoleService";
+import { prisma } from "../app";
 
 /**
  * @swagger
- * /blackholes/{name}:
- *   get:
- *     summary: Get black hole information
- *     description: Retrieves information about a specific black hole by name
- *     tags:
- *       - Black Holes
- *     parameters:
- *       - in: path
- *         name: name
- *         required: true
- *         schema:
- *           type: string
- *         description: Name of the black hole
- *         example: "Sagittarius A*"
- *     responses:
- *       200:
- *         description: Successful response
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   description: Name of the black hole
- *                 mass:
- *                   type: string
- *                   description: Mass of the black hole
- *                 source:
- *                   type: string
- *                   description: Source URL of the information
- *       404:
- *         description: Black hole not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                 mass:
- *                   type: string
- *                 source:
- *                   type: string
- *                 error:
- *                   type: string
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                 details:
- *                   type: string
+ * tags:
+ *   name: Black Holes
+ *   description: API endpoints for black hole information
  */
 
-
-
-// Controller für API-Abfagen an Endpoint /blackholes/{name}
 export class BlackHoleController {
+  /**
+   * @swagger
+   * /blackholes/{name}:
+   *   get:
+   *     summary: Get black hole information
+   *     description: Retrieves information about a specific black hole by name
+   *     tags: [Black Holes]
+   *     parameters:
+   *       - in: path
+   *         name: name
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: Name of the black hole
+   *         example: "Sagittarius A*"
+   *     responses:
+   *       200:
+   *         description: Successful response
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 name:
+   *                   type: string
+   *                   description: Name of the black hole
+   *                 mass:
+   *                   type: string
+   *                   description: Mass of the black hole
+   *                 source:
+   *                   type: string
+   *                   description: Source URL of the information
+   *       404:
+   *         description: Black hole not found
+   *       500:
+   *         description: Server error
+   */
   public async getBlackHoleInfo(req: Request, res: Response): Promise<void> {
     try {
       const name = req.params.name;
