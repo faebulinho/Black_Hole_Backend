@@ -187,7 +187,6 @@ Beispiel-Antwort bei einem Fehler:
 }
 ```
 
-
 ## Tests
 
 Um Tests auszuführen (falls implementiert):
@@ -196,3 +195,119 @@ Um Tests auszuführen (falls implementiert):
 npm test
 ```
 
+## Datenbank
+
+Das Projekt verwendet eine SQLite-Datenbank mit Prisma als ORM (Object-Relational Mapping) zur Verwaltung der Daten.
+
+### Warum SQLite?
+
+Für dieses Projekt wurde SQLite gewählt aus folgenden Gründen:
+
+- **Einfache Einrichtung**: Keine separate Datenbankinstallation oder -konfiguration erforderlich
+- **Dateibasiert**: Die gesamte Datenbank ist in einer einzigen Datei gespeichert, was die Entwicklung und das Testen vereinfacht
+- **Portabilität**: Einfacher Transfer zwischen Entwicklungsumgebungen
+- **Geringe Ressourcenanforderungen**: Ideal für kleinere bis mittlere Datenmengen wie in diesem Projekt
+- **Keine Client-Server-Architektur nötig**: Perfekt für Entwicklungs- und Testumgebungen
+
+SQLite eignet sich besonders gut für dieses Projekt, da es sich um eine Anwendung mit begrenzter gleichzeitiger Schreiblast handelt und die Datenbankstruktur relativ einfach ist.
+
+### Datenbankmodelle
+
+Das Projekt verwendet die folgenden Datenbankmodelle:
+
+#### User
+
+```prisma
+model User {
+  id            Int      @id @default(autoincrement())
+  first_name    String
+  last_name     String
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+}
+```
+
+#### Particle
+
+```prisma
+model Particle {
+  id         Int      @id @default(autoincrement())
+  name       String?
+  a          Float    // Spin-Wert
+  m          Float    // Massenwert
+  created_at DateTime @default(now())
+}
+```
+
+### Einrichtung und Verwendung
+
+#### 1. Umgebungsvariable einrichten
+
+Erstellen Sie eine `.env`-Datei im Hauptverzeichnis mit der folgenden Zeile:
+
+```
+DATABASE_URL="file:./dev.db"
+```
+
+#### 2. Prisma-Migrationen erstellen und anwenden
+
+Bei der ersten Einrichtung oder nach Änderungen am Datenbankschema:
+
+```bash
+npm run prisma:migrate
+```
+
+Dies erstellt eine neue Migration basierend auf Ihrem aktuellen Schema und wendet sie auf die Datenbank an.
+
+#### 3. Prisma Client generieren
+
+```bash
+npm run prisma:generate
+```
+
+#### 4. Testdaten mit Seed-Skript laden
+
+Um die Datenbank mit Testdaten zu füllen:
+
+```bash
+npm run prisma:seed
+```
+
+Das Seed-Skript befindet sich in `prisma/seed.ts` und erstellt Beispieldaten für Benutzer und Partikel.
+
+#### 5. Datenbank zurücksetzen (bei Bedarf)
+
+Um alle Daten zu löschen und die Datenbank neu zu initialisieren:
+
+```bash
+npm run prisma:reset
+```
+
+#### 6. Prisma Studio verwenden
+
+Um eine grafische Benutzeroberfläche zur Verwaltung der Datenbank zu öffnen:
+
+```bash
+npm run prisma:studio
+```
+
+Damit wird ein Webinterface auf http://localhost:5555 gestartet, mit dem Sie Datensätze anzeigen, hinzufügen, bearbeiten und löschen können.
+
+### Integration in die API
+
+Die Datenbank wird in den Controllern und Services verwendet, um:
+
+- Benutzerinformationen für die Authentifizierung zu speichern und abzurufen
+- Partikeldaten zu speichern, die für Schwarze-Loch-Simulationen verwendet werden
+- Leistungsdaten zu verfolgen und zu analysieren
+
+### Prisma-Schema-Erweiterungen
+
+Um das Datenbankschema zu erweitern, bearbeiten Sie die Datei `prisma/schema.prisma` und führen Sie anschließend eine Migration durch:
+
+```bash
+npm run prisma:migrate
+```
+
+Neue Testdaten können durch Anpassung der Datei `prisma/seed.ts` hinzugefügt werden.

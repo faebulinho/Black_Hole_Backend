@@ -57,46 +57,10 @@
             }
           },
           "404": {
-            "description": "Black hole not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string"
-                    },
-                    "mass": {
-                      "type": "string"
-                    },
-                    "source": {
-                      "type": "string"
-                    },
-                    "error": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Black hole not found"
           },
           "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string"
-                    },
-                    "details": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Server error"
           }
         }
       }
@@ -163,53 +127,197 @@
         }
       }
     },
-    "/users/name": {
+    "/particles": {
       "get": {
-        "summary": "Get user name",
-        "description": "Retrieves the name of the current user",
+        "summary": "Get all particles",
+        "tags": [
+          "Particles"
+        ]
+      },
+      "post": {
+        "summary": "Create particle",
+        "tags": [
+          "Particles"
+        ]
+      }
+    },
+    "/particles/{id}": {
+      "get": {
+        "summary": "Get particle by ID",
+        "tags": [
+          "Particles"
+        ]
+      },
+      "put": {
+        "summary": "Update particle",
+        "tags": [
+          "Particles"
+        ]
+      },
+      "delete": {
+        "summary": "Delete particle",
+        "tags": [
+          "Particles"
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "summary": "Create a new user",
+        "description": "Creates a new user with the provided data",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all users",
+        "description": "Retrieves a list of all users",
         "tags": [
           "Users"
         ],
         "responses": {
           "200": {
-            "description": "Successfully retrieved user name",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "The name of the user",
-                      "example": "User Name Lauch"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "List of users retrieved successfully"
           },
           "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "description": "Error message"
-                    }
-                  }
-                }
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get user by ID",
+        "description": "Retrieves a user by their ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found successfully"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user",
+        "description": "Updates a user's information by their ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user",
+        "description": "Deletes a user by their ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully"
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
     }
   },
-  "components": {},
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
   "tags": [
+    {
+      "name": "Black Holes",
+      "description": "API endpoints for black hole information"
+    },
+    {
+      "name": "Info",
+      "description": "API endpoints for system information"
+    },
     {
       "name": "Users",
       "description": "API endpoints for user management"

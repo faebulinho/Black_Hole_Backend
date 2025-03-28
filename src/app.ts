@@ -7,11 +7,16 @@ import { infoRoutes } from "./routes/infoRoutes";
 import { blackHoleRoutes } from "./routes/blackHoleRoutes";
 import { userRoutes } from "./routes/userRoutes";
 import { swaggerSpec } from "./config/swagger"; // Add this import
+import { PrismaClient } from "@prisma/client";
+import particleRoutes from "./routes/particleRoutes";
 
 // Load environment variables
 dotenv.config();
 
-const app: Express = express();
+// Export PrismaClient Instanz
+export const prisma = new PrismaClient();
+
+export const app: Express = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
@@ -34,6 +39,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/v1/info", infoRoutes);
 app.use("/api/v1/blackholes", blackHoleRoutes);
 app.use("/api/v1/users", userRoutes);
+app.use("api/v1/particles", particleRoutes);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -46,5 +52,3 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
   console.log(`Swagger UI available at http://localhost:${port}/api-docs`);
 });
-
-export { app };
