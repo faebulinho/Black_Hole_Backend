@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
-import { prisma } from "@/app";
+import { userService } from "@/services/userService";
+import { compare, hash } from "bcryptjs";
 
 /**
  * @swagger
@@ -18,10 +18,28 @@ import { prisma } from "@/app";
  *       properties:
  *         id:
  *           type: integer
- *         name:
+ *           description: The user ID
+ *         first_name:
  *           type: string
+ *           description: User's first name
+ *         last_name:
+ *           type: string
+ *           description: User's last name
  *         email:
  *           type: string
+ *           description: User's email address
+ *         password_hash:
+ *           type: string
+ *           description: Hashed password (not returned in responses)
+ *         created_at:
+ *           type: string
+ *           format: date-time
+ *           description: The date and time when the user was created
+ *       required:
+ *         - first_name
+ *         - last_name
+ *         - email
+ *         - password_hash
  */
 
 export class UserController {
@@ -37,7 +55,28 @@ export class UserController {
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/User'
+   *             type: object
+   *             required:
+   *               - first_name
+   *               - last_name
+   *               - email
+   *               - password
+   *             properties:
+   *               first_name:
+   *                 type: string
+   *               last_name:
+   *                 type: string
+   *               email:
+   *                 type: string
+   *                 format: email
+   *               password:
+   *                 type: string
+   *                 format: password
+   *           example:
+   *             first_name: "John"
+   *             last_name: "Doe"
+   *             email: "john.doe@example.com"
+   *             password: "password123"
    *     responses:
    *       201:
    *         description: User created successfully
@@ -46,8 +85,23 @@ export class UserController {
    */
   public async createUser(req: Request, res: Response): Promise<void> {
     try {
-      const user = await prisma.user.create({
-        data: req.body,
+      const { first_name, last_name, email, password } = req.body;
+
+      // Check if required fields are present
+      if (!first_name || !last_name || !email || !password) {
+        res.status(400).json({
+          error:
+            "Missing required fields: first_name, last_name, email, and password are required",
+        });
+        return;
+      }
+
+      const password_hash = await hash(password, 10);
+      const user = await userService.createUser({
+        first_name,
+        last_name,
+        email,
+        password_hash,
       });
       res.status(201).json(user);
     } catch (error) {
@@ -67,12 +121,18 @@ export class UserController {
    *     responses:
    *       200:
    *         description: List of users retrieved successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/User'
    *       500:
    *         description: Server error
    */
   public async getAllUsers(req: Request, res: Response): Promise<void> {
     try {
-      const users = await prisma.user.findMany();
+      const users = await userService.getAllUsers();
       res.json(users);
     } catch (error) {
       res.status(500).json({
@@ -94,17 +154,22 @@ export class UserController {
    *         required: true
    *         schema:
    *           type: integer
+   *         description: The user ID
    *     responses:
    *       200:
    *         description: User found successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/User'
    *       404:
    *         description: User not found
+   *       500:
+   *         description: Server error
    */
   public async getUserById(req: Request, res: Response): Promise<void> {
     try {
-      const user = await prisma.user.findUnique({
-        where: { id: Number(req.params.id) },
-      });
+      const user = await userService.getUserById(Number(req.params.id));
       if (!user) {
         res.status(404).json({ message: "User not found" });
         return;
@@ -130,23 +195,49 @@ export class UserController {
    *         required: true
    *         schema:
    *           type: integer
+   *         description: The user ID
    *     requestBody:
    *       required: true
    *       content:
    *         application/json:
    *           schema:
-   *             $ref: '#/components/schemas/User'
+   *             type: object
+   *             properties:
+   *               first_name:
+   *                 type: string
+   *               last_name:
+   *                 type: string
+   *               email:
+   *                 type: string
+   *                 format: email
+   *               password:
+   *                 type: string
+   *                 format: password
+   *           example:
+   *             first_name: "John"
+   *             last_name: "Doe"
+   *             email: "john.updated@example.com"
    *     responses:
    *       200:
    *         description: User updated successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/User'
    *       400:
    *         description: Bad request
+   *       404:
+   *         description: User not found
    */
   public async updateUser(req: Request, res: Response): Promise<void> {
     try {
-      const user = await prisma.user.update({
-        where: { id: Number(req.params.id) },
-        data: req.body,
+      const { first_name, last_name, email, password } = req.body;
+      const password_hash = password ? await hash(password, 10) : undefined;
+      const user = await userService.updateUser(Number(req.params.id), {
+        first_name,
+        last_name,
+        email,
+        password_hash,
       });
       res.json(user);
     } catch (error) {
@@ -169,18 +260,157 @@ export class UserController {
    *         required: true
    *         schema:
    *           type: integer
+   *         description: The user ID
    *     responses:
    *       200:
    *         description: User deleted successfully
+   *       404:
+   *         description: User not found
    *       500:
    *         description: Server error
    */
   public async deleteUser(req: Request, res: Response): Promise<void> {
     try {
-      await prisma.user.delete({
-        where: { id: Number(req.params.id) },
-      });
+      await userService.deleteUser(Number(req.params.id));
       res.json({ message: "User deleted successfully" });
+    } catch (error) {
+      res.status(500).json({
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  }
+
+  /**
+   * @swagger
+   * /auth/register:
+   *   post:
+   *     summary: Register a new user
+   *     description: Registers a new user with the provided data
+   *     tags: [Auth]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - first_name
+   *               - last_name
+   *               - email
+   *               - password
+   *             properties:
+   *               first_name:
+   *                 type: string
+   *               last_name:
+   *                 type: string
+   *               email:
+   *                 type: string
+   *                 format: email
+   *               password:
+   *                 type: string
+   *                 format: password
+   *           example:
+   *             first_name: "Jane"
+   *             last_name: "Doe"
+   *             email: "jane.doe@example.com"
+   *             password: "securepassword"
+   *     responses:
+   *       201:
+   *         description: User registered successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/User'
+   *       400:
+   *         description: Bad request - Email already exists or missing required fields
+   */
+  public async register(req: Request, res: Response): Promise<void> {
+    try {
+      const { first_name, last_name, email, password } = req.body;
+
+      // Check if required fields are present
+      if (!first_name || !last_name || !email || !password) {
+        res.status(400).json({
+          error:
+            "Missing required fields: first_name, last_name, email, and password are required",
+        });
+        return;
+      }
+
+      const existingUser = await userService.findUserByEmail(email);
+      if (existingUser) {
+        res.status(400).json({ error: "Email already exists" });
+        return;
+      }
+
+      const password_hash = await hash(password, 10);
+      const user = await userService.createUser({
+        first_name,
+        last_name,
+        email,
+        password_hash,
+      });
+      res.status(201).json(user);
+    } catch (error) {
+      res.status(400).json({
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  }
+
+  /**
+   * @swagger
+   * /auth/login:
+   *   post:
+   *     summary: Login a user
+   *     description: Authenticates a user with their email and password
+   *     tags: [Auth]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - email
+   *               - password
+   *             properties:
+   *               email:
+   *                 type: string
+   *                 format: email
+   *               password:
+   *                 type: string
+   *                 format: password
+   *           example:
+   *             email: "jane.doe@example.com"
+   *             password: "securepassword"
+   *     responses:
+   *       200:
+   *         description: User logged in successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   *                   example: "Login successful"
+   *                 user:
+   *                   $ref: '#/components/schemas/User'
+   *       401:
+   *         description: Unauthorized - Invalid email or password
+   *       500:
+   *         description: Server error
+   */
+  public async login(req: Request, res: Response): Promise<void> {
+    try {
+      const { email, password } = req.body;
+      const user = await userService.findUserByEmail(email);
+      if (!user || !(await compare(password, user.password_hash))) {
+        res.status(401).json({ error: "Invalid email or password" });
+        return;
+      }
+      res.json({ message: "Login successful", user });
     } catch (error) {
       res.status(500).json({
         error: error instanceof Error ? error.message : "Unknown error",
