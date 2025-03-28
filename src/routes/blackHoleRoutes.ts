@@ -1,10 +1,14 @@
-import { Router } from "express"; // Importiert den Router von Express für die Definition von Routen
-import { blackHoleController } from "../controllers/blackHoleController"; // Importiert den Controller, der die Logik für die Routen verarbeitet
+// Route für Informationen der Schwarzen Löcher
 
-const router = Router(); // Erstellt eine neue Router-Instanz
+import { Router } from "express";
+import { blackHoleController } from "../controllers/blackHoleController";
 
-// Definiert eine GET-Route mit einem dynamischen Parameter ":name"
-// Wenn eine Anfrage an "/:name" gesendet wird, ruft sie die Methode getBlackHoleInfo des Controllers auf
+// Erstellt eine neue Router-Instanz
+const router = Router();
+
+
+// Wenn eine Anfrage  gesendet wird, ruft sie die Methode getBlackHoleInfo des Controllers auf
 router.get("/:name", blackHoleController.getBlackHoleInfo);
 
-export { router as blackHoleRoutes }; // Exportiert den Router mit dem Namen "blackHoleRoutes"
+// Exportiert den Router mit dem Namen "blackHoleRoutes"
+export { router as blackHoleRoutes };

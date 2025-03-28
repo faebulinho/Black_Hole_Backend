@@ -1,0 +1,8 @@
+-- CreateTable
+CREATE TABLE "Particle" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT,
+    "a" REAL NOT NULL,
+    "m" REAL NOT NULL,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

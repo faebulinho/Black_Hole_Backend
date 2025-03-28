@@ -1,29 +1,35 @@
+//Klasse für Funktion von Enpoint (Data Scraping wird hier gemacht)
 
-import { Request, Response } from "express";
-
+// Importiere Puppeteer für zum Scrapen
 import puppeteer from "puppeteer";
 
+// Definiere eine Schnittstelle für die zurückgegebenen Schwarzes-Loch-Informationen
 export interface BlackHoleInfo {
   name: string;
   mass: string;
   source: string;
   error?: string;
 }
-// Klasse die Datascraped
+
+// Klasse für das Data-Scraping von Daten von den Schwarzen Löchern
 export class BlackHoleService {
+  // URL der Webseite angeben, wo man scraped
   private readonly baseUrl = "https://www.astro.gsu.edu/AGNmass/";
 
+  // Methode für das Data-Scraping/ holen der benötigten Infos
   public async getBlackHoleInfo(name: string): Promise<BlackHoleInfo> {
+    // Starte einen neuen Puppeteer-Browser im Headless-Modus
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
     try {
+      // Öffnet die Webseite 
       await page.goto(this.baseUrl, { waitUntil: "domcontentloaded" });
 
-      // XPath-Muster für alle Namen in der Tabelle
+      // XPath-Muster zum Extrahieren aller Namen in der Tabelle (Wurde auf die Tabelle der Webseite angepasst)
       const nameXPathPattern = `/html/body/font/center/form[2]/font/font/center/table/tbody/tr/td[2]/a`;
 
-      // Alle Namen der Schwarzen Löcher mit ihrer Zeilennummer extrahieren
+      // Extrahiere alle Namen der Schwarzen Löcher und speichere sie mit ihrer Zeilennummer
       const blackHoleRows = await page.evaluate((xpath) => {
         const nodesSnapshot = document.evaluate(
           xpath,
@@ -38,13 +44,13 @@ export class BlackHoleService {
           const node = nodesSnapshot.snapshotItem(i);
           if (node) {
             const blackHoleName = node.textContent?.trim() || "Unbekannt";
-            results[blackHoleName] = i + 1; // tr[X] beginnt bei 1
+            results[blackHoleName] = i + 1; // Tabellenreihen beginnen bei 1
           }
         }
         return results;
       }, nameXPathPattern);
 
-      // Prüfen, ob der Name existiert
+      // Überprüfen, ob der gesuchte Name in der Tabelle existiert
       if (!(name in blackHoleRows)) {
         await browser.close();
         return {
@@ -55,13 +61,13 @@ export class BlackHoleService {
         };
       }
 
-      // Die Zeilennummer des gefundenen Namens holen
+      // Bestimme die Zeilennummer des gesuchten Schwarzen Lochs
       const rowIndex = blackHoleRows[name];
 
-      // XPath(Ort auf der Webseite) für die Masse generieren (Spalte 3)
+      // Generiere den XPath für die Masse (Spalte 3 der gefundenen Zeile)
       const massXPath = `/html/body/font/center/form[2]/font/font/center/table/tbody/tr[${rowIndex}]/td[3]`;
 
-      // Masse auslesen
+      // Masse des gesuchten Schwarzen Lochs herausnehmen
       const mass = await page.evaluate((xpath) => {
         const result = document.evaluate(
           xpath,
@@ -73,6 +79,7 @@ export class BlackHoleService {
         return result ? result.textContent?.trim() || "Masse nicht gefunden" : "Masse nicht gefunden";
       }, massXPath);
 
+      // Schließe den Browser nach Abschluss des Scraping-Vorgangs
       await browser.close();
 
       return {
@@ -81,6 +88,7 @@ export class BlackHoleService {
         source: this.baseUrl,
       };
     } catch (error) {
+      // Falls ein Fehler auftritt, Browser schließen und Fehler zurückgeben
       await browser.close();
       return {
         name,
@@ -92,4 +100,5 @@ export class BlackHoleService {
   }
 }
 
+// Erstelle eine Instanz des Services zur Wiederverwendung
 export const blackHoleService = new BlackHoleService();
