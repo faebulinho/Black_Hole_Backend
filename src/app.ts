@@ -9,6 +9,8 @@ import { userRoutes } from "./routes/userRoutes";
 import { swaggerSpec } from "./config/swagger"; // Add this import
 import { PrismaClient } from "@prisma/client";
 import particleRoutes from "./routes/particleRoutes";
+import { authRoutes } from "./routes/authRoute";
+
 
 // Load environment variables
 dotenv.config();
@@ -39,7 +41,10 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/v1/info", infoRoutes);
 app.use("/api/v1/blackholes", blackHoleRoutes);
 app.use("/api/v1/users", userRoutes);
-app.use("api/v1/particles", particleRoutes);
+app.use("/api/v1/particles", particleRoutes);
+app.use("/api/v1/auth", authRoutes);
+
+
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
