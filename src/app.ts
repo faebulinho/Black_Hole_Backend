@@ -1,4 +1,9 @@
 /**
+ * 30.3.2025 Projekt: Schwarze Loch Simulation von Vishal Sivanathan, Miloš Maric, Fabian Boner
+ * 
+ * Backend: Fabian, Frontend: Miloš, Simulation: Vishal
+ * 
+ * 
  * Hauptdatei der Express-Anwendung für die Black Hole Simulation API=> Wichtigste Datei
  * 
  * Konfiguriert den Express-Server mit Middleware, Routen und Swagger-Dokumentation.
