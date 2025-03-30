@@ -5,11 +5,11 @@ import { particleController } from "../controllers/particleController";
 const router = Router();
 
 // Definiert die CRUD-Routen für Partikel
-router.get("/particles", particleController.getAllParticles);
-router.get("/particles/:id", particleController.getParticleById);
-router.post("/particles", particleController.createParticle);
-router.put("/particles/:id", particleController.updateParticle);
-router.delete("/particles/:id", particleController.deleteParticle);
+router.get("/", particleController.getAllParticles);
+router.get("/:id", particleController.getParticleById);
+router.post("/", particleController.createParticle);
+router.put("/:id", particleController.updateParticle);
+router.delete("/:id", particleController.deleteParticle);
 
 // Exportiert den Router mit dem Namen "particleRoutes"
 export default router;

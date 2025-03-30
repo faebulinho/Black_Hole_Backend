@@ -24,7 +24,7 @@ export class BlackHoleController {
    *         schema:
    *           type: string
    *         description: Name of the black hole
-   *         example: "Sagittarius A*"
+   *         example: "Mrk335"
    *     responses:
    *       200:
    *         description: Successful response
