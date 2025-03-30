@@ -8,7 +8,7 @@ info:
         email: your.email@example.com
 servers:
     -
-        url: 'http://localhost:8080'
+        url: 'http://localhost:8080/api/v1'
         description: 'Development server'
 paths:
     '/blackholes/{name}':
@@ -39,24 +39,8 @@ paths:
                                     source: {type: string, description: 'Source URL of the information'}
                 '404':
                     description: 'Black hole not found'
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    name: {type: string}
-                                    mass: {type: string}
-                                    source: {type: string}
-                                    error: {type: string}
                 '500':
                     description: 'Server error'
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    error: {type: string}
-                                    details: {type: string}
     /info/datetime:
         get:
             summary: 'Get current date and time'
@@ -90,10 +74,165 @@ paths:
                                     version: {type: string}
                                     environment: {type: string}
                                     nodeVersion: {type: string}
-    /api/v1/users:
+    /particles:
+        get:
+            summary: 'Get all particles'
+            description: 'Retrieves a list of all particles'
+            tags:
+                - Particles
+            responses:
+                '200':
+                    description: 'List of particles retrieved successfully'
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Particle'
+                '500':
+                    description: 'Server error'
+        post:
+            summary: 'Create particle'
+            description: 'Creates a new particle with the provided data'
+            tags:
+                - Particles
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - a
+                                - m
+                            properties:
+                                name:
+                                    type: string
+                                    nullable: true
+                                    description: 'Optional name of the particle'
+                                a:
+                                    type: number
+                                    format: float
+                                    description: 'Spin value'
+                                m:
+                                    type: number
+                                    format: float
+                                    description: 'Mass value'
+                        example:
+                            name: Electron
+                            a: 0.5
+                            m: 0.00054
+            responses:
+                '201':
+                    description: 'Particle created successfully'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Particle'
+                '400':
+                    description: 'Bad request'
+    '/particles/{id}':
+        get:
+            summary: 'Get particle by ID'
+            description: 'Retrieves a particle by its ID'
+            tags:
+                - Particles
+            parameters:
+                -
+                    in: path
+                    name: id
+                    required: true
+                    schema:
+                        type: integer
+                    description: 'The particle ID'
+            responses:
+                '200':
+                    description: 'Particle found successfully'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Particle'
+                '404':
+                    description: 'Particle not found'
+                '500':
+                    description: 'Server error'
+        put:
+            summary: 'Update particle'
+            description: 'Updates a particle''s information by its ID'
+            tags:
+                - Particles
+            parameters:
+                -
+                    in: path
+                    name: id
+                    required: true
+                    schema:
+                        type: integer
+                    description: 'The particle ID'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                    nullable: true
+                                    description: 'Optional name of the particle'
+                                a:
+                                    type: number
+                                    format: float
+                                    description: 'Spin value'
+                                m:
+                                    type: number
+                                    format: float
+                                    description: 'Mass value'
+                        example:
+                            name: 'Updated Electron'
+                            a: 0.5
+                            m: 0.00054
+            responses:
+                '200':
+                    description: 'Particle updated successfully'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Particle'
+                '400':
+                    description: 'Bad request'
+                '404':
+                    description: 'Particle not found'
+        delete:
+            summary: 'Delete particle'
+            description: 'Deletes a particle by its ID'
+            tags:
+                - Particles
+            parameters:
+                -
+                    in: path
+                    name: id
+                    required: true
+                    schema:
+                        type: integer
+                    description: 'The particle ID'
+            responses:
+                '200':
+                    description: 'Particle deleted successfully'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message: {type: string, example: 'Particle deleted successfully'}
+                '404':
+                    description: 'Particle not found'
+                '500':
+                    description: 'Server error'
+    /users:
         post:
             summary: 'Create a new user'
-            description: 'Registers a new user in the database'
+            description: 'Creates a new user with the provided data'
             tags:
                 - Users
             requestBody:
@@ -101,13 +240,284 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UserRegistration'
+                            type: object
+                            required:
+                                - first_name
+                                - last_name
+                                - email
+                                - password
+                            properties:
+                                first_name:
+                                    type: string
+                                last_name:
+                                    type: string
+                                email:
+                                    type: string
+                                    format: email
+                                password:
+                                    type: string
+                                    format: password
+                        example:
+                            first_name: John
+                            last_name: Doe
+                            email: john.doe@example.com
+                            password: password123
             responses:
                 '201':
                     description: 'User created successfully'
                 '400':
-                    description: 'Invalid request or email already in use'
+                    description: 'Bad request'
+        get:
+            summary: 'Get all users'
+            description: 'Retrieves a list of all users'
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: 'List of users retrieved successfully'
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/User'
                 '500':
                     description: 'Server error'
-components: {}
-tags: []
+    '/users/{id}':
+        get:
+            summary: 'Get user by ID'
+            description: 'Retrieves a user by their ID'
+            tags:
+                - Users
+            parameters:
+                -
+                    in: path
+                    name: id
+                    required: true
+                    schema:
+                        type: integer
+                    description: 'The user ID'
+            responses:
+                '200':
+                    description: 'User found successfully'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                '404':
+                    description: 'User not found'
+                '500':
+                    description: 'Server error'
+        put:
+            summary: 'Update user'
+            description: 'Updates a user''s information by their ID'
+            tags:
+                - Users
+            parameters:
+                -
+                    in: path
+                    name: id
+                    required: true
+                    schema:
+                        type: integer
+                    description: 'The user ID'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                first_name:
+                                    type: string
+                                last_name:
+                                    type: string
+                                email:
+                                    type: string
+                                    format: email
+                                password:
+                                    type: string
+                                    format: password
+                        example:
+                            first_name: John
+                            last_name: Doe
+                            email: john.updated@example.com
+            responses:
+                '200':
+                    description: 'User updated successfully'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                '400':
+                    description: 'Bad request'
+                '404':
+                    description: 'User not found'
+        delete:
+            summary: 'Delete user'
+            description: 'Deletes a user by their ID'
+            tags:
+                - Users
+            parameters:
+                -
+                    in: path
+                    name: id
+                    required: true
+                    schema:
+                        type: integer
+                    description: 'The user ID'
+            responses:
+                '200':
+                    description: 'User deleted successfully'
+                '404':
+                    description: 'User not found'
+                '500':
+                    description: 'Server error'
+    /auth/register:
+        post:
+            summary: 'Register a new user'
+            description: 'Registers a new user with the provided data'
+            tags:
+                - Auth
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - first_name
+                                - last_name
+                                - email
+                                - password
+                            properties:
+                                first_name:
+                                    type: string
+                                last_name:
+                                    type: string
+                                email:
+                                    type: string
+                                    format: email
+                                password:
+                                    type: string
+                                    format: password
+                        example:
+                            first_name: Jane
+                            last_name: Doe
+                            email: jane.doe@example.com
+                            password: securepassword
+            responses:
+                '201':
+                    description: 'User registered successfully'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                '400':
+                    description: 'Bad request - Email already exists or missing required fields'
+    /auth/login:
+        post:
+            summary: 'Login a user'
+            description: 'Authenticates a user with their email and password'
+            tags:
+                - Auth
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - email
+                                - password
+                            properties:
+                                email:
+                                    type: string
+                                    format: email
+                                password:
+                                    type: string
+                                    format: password
+                        example:
+                            email: jane.doe@example.com
+                            password: securepassword
+            responses:
+                '200':
+                    description: 'User logged in successfully'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message: {type: string, example: 'Login successful'}
+                                    user: {$ref: '#/components/schemas/User'}
+                '401':
+                    description: 'Unauthorized - Invalid email or password'
+                '500':
+                    description: 'Server error'
+components:
+    schemas:
+        Particle:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 'The particle ID'
+                name:
+                    type: string
+                    nullable: true
+                    description: 'Optional name of the particle'
+                a:
+                    type: number
+                    format: float
+                    description: 'Spin value'
+                m:
+                    type: number
+                    format: float
+                    description: 'Mass value'
+                created_at:
+                    type: string
+                    format: date-time
+                    description: 'The date and time when the particle was created'
+            required:
+                - a
+                - m
+        User:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 'The user ID'
+                first_name:
+                    type: string
+                    description: 'User''s first name'
+                last_name:
+                    type: string
+                    description: 'User''s last name'
+                email:
+                    type: string
+                    description: 'User''s email address'
+                password_hash:
+                    type: string
+                    description: 'Hashed password (not returned in responses)'
+                created_at:
+                    type: string
+                    format: date-time
+                    description: 'The date and time when the user was created'
+            required:
+                - first_name
+                - last_name
+                - email
+                - password_hash
+tags:
+    -
+        name: 'Black Holes'
+        description: 'API endpoints for black hole information'
+    -
+        name: Info
+        description: 'API endpoints for system information'
+    -
+        name: Particles
+        description: 'API endpoints for particle management'
+    -
+        name: Users
+        description: 'API endpoints for user management'

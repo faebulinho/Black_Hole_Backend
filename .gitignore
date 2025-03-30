@@ -5,3 +5,5 @@ dist/
 .DS_Store
 openapi-specification.json
 prisma/dev.db
+src/swagger/swagger.json
+src/swagger/swagger.yaml
