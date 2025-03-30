@@ -1,6 +1,6 @@
 # Black_Hole_Backend
 
-Eine auf TypeScript basierende REST-API, die Informationen über Schwarze Löcher bereitstellt und zusätzlich eine Benutzerverwaltung umfasst. Die API sammelt Daten aus zuverlässigen Quellen und stellt sie über eine gut dokumentierte Schnittstelle bereit. Dieses Repository stellt das Backend zu dem Frontend https://github.com/faebulinho/Black_Hole_Frontend der Webseite, die Simulationen von Schwarzen Löchern darstellt. Backend ist für Windows ausgelegt.
+Eine auf TypeScript basierende REST-API, die Informationen über Schwarze Löcher bereitstellt und zusätzlich eine Benutzerverwaltung umfasst. Die API sammelt Daten aus zuverlässigen Quellen und stellt sie über eine gut dokumentierte Schnittstelle bereit. Dieses Repository stellt das Backend zu dem Frontend https://github.com/faebulinho/Black_Hole_Frontend der Webseite, die Simulationen von Schwarzen Löchern darstellt. Backend wurde auf/für Windows entwickelt.
 
 ## Projektstruktur
 
