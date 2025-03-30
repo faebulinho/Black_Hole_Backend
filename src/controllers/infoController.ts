@@ -1,3 +1,6 @@
+// Controller für Endpoint von Systeminfo, wird nicht aktiv für unsere Webseite benötigt, war zum ausprobieren da
+
+
 import { Request, Response } from "express";
 
 /**

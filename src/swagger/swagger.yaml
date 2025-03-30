@@ -1,0 +1,113 @@
+openapi: 3.0.0
+info:
+    title: 'Black Hole Simulation API'
+    version: 1.0.0
+    description: 'API documentation for the Black Hole Simulation project'
+    contact:
+        name: Developer
+        email: your.email@example.com
+servers:
+    -
+        url: 'http://localhost:8080'
+        description: 'Development server'
+paths:
+    '/blackholes/{name}':
+        get:
+            summary: 'Get black hole information'
+            description: 'Retrieves information about a specific black hole by name'
+            tags:
+                - 'Black Holes'
+            parameters:
+                -
+                    in: path
+                    name: name
+                    required: true
+                    schema:
+                        type: string
+                    description: 'Name of the black hole'
+                    example: Mrk335
+            responses:
+                '200':
+                    description: 'Successful response'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    name: {type: string, description: 'Name of the black hole'}
+                                    mass: {type: string, description: 'Mass of the black hole'}
+                                    source: {type: string, description: 'Source URL of the information'}
+                '404':
+                    description: 'Black hole not found'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    name: {type: string}
+                                    mass: {type: string}
+                                    source: {type: string}
+                                    error: {type: string}
+                '500':
+                    description: 'Server error'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error: {type: string}
+                                    details: {type: string}
+    /info/datetime:
+        get:
+            summary: 'Get current date and time'
+            description: 'Returns the current server date and time along with timezone information'
+            tags:
+                - Info
+            responses:
+                '200':
+                    description: 'Successful response'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    datetime: {type: string, format: date-time}
+                                    timezone: {type: string}
+    /info/version:
+        get:
+            summary: 'Get API version information'
+            description: 'Returns the current API version and environment information'
+            tags:
+                - Info
+            responses:
+                '200':
+                    description: 'Successful response'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    version: {type: string}
+                                    environment: {type: string}
+                                    nodeVersion: {type: string}
+    /api/v1/users:
+        post:
+            summary: 'Create a new user'
+            description: 'Registers a new user in the database'
+            tags:
+                - Users
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserRegistration'
+            responses:
+                '201':
+                    description: 'User created successfully'
+                '400':
+                    description: 'Invalid request or email already in use'
+                '500':
+                    description: 'Server error'
+components: {}
+tags: []
