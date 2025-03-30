@@ -1,6 +1,6 @@
 # Black_Hole_Backend
 
-Eine auf TypeScript basierende REST-API, die Informationen über Schwarze Löcher bereitstellt und zusätzlich eine Benutzerverwaltung umfasst. Die API sammelt Daten aus zuverlässigen Quellen und stellt sie über eine gut dokumentierte Schnittstelle bereit. Dieses Repository stellt das Backend zu dem Frontend https://github.com/faebulinho/Black_Hole_Frontend der Webseite, die Simulationen von Schwarzen Löchern darstellt.
+Eine auf TypeScript basierende REST-API, die Informationen über Schwarze Löcher bereitstellt und zusätzlich eine Benutzerverwaltung umfasst. Die API sammelt Daten aus zuverlässigen Quellen und stellt sie über eine gut dokumentierte Schnittstelle bereit. Dieses Repository stellt das Backend zu dem Frontend https://github.com/faebulinho/Black_Hole_Frontend der Webseite, die Simulationen von Schwarzen Löchern darstellt. Backend ist für Windows ausgelegt.
 
 ## Projektstruktur
 
@@ -244,7 +244,7 @@ model Particle {
 
 #### 1. Umgebungsvariable einrichten
 
-Erstellen Sie eine `.env`-Datei im Hauptverzeichnis mit der folgenden Zeile:
+Erstellen Sie eine `.env`-Datei im Hauptverzeichnis mit der folgenden Zeile (Siehe auch sonst .env.example File für Beispiel):
 
 ```
 DATABASE_URL="file:./dev.db"
