@@ -1,3 +1,11 @@
+/**
+ * Black Hole Controller
+ * 
+ * Dieser Controller verwaltet API-Endpunkte zum Abrufen von Informationen über schwarze Löcher.
+ * Er übernimmt HTTP-Anfragen bezüglich schwarzer Löcher, delegiert die Datenverarbeitung an den
+ * entsprechenden Service und formatiert die Antworten für den Client.
+ */
+
 import { Request, Response } from "express";
 import { blackHoleService } from "../services/blackHoleService";
 import { prisma } from "../app";

@@ -1,3 +1,15 @@
+/**
+ * Benutzer-Controller für die Schwarze-Loch-Simulationsanwendung
+ * 
+ * Dieser Controller verwaltet alle benutzerbezogenen API-Endpunkte:
+ * - CRUD-Operationen für Benutzerkonten (Erstellen, Lesen, Aktualisieren, Löschen)
+ * - Authentifizierung (Registrierung und Login)
+ * - Benutzerprofilverwaltung
+ * 
+ * Die Passwörter werden mit bcryptjs gehasht gespeichert, um die Sicherheit zu gewährleisten.
+ * Der Controller enthält Swagger-Dokumentation für die automatische API-Spezifikationsgenerierung.
+ */
+
 import { Request, Response } from "express";
 import { userService } from "@/services/userService";
 import { compare, hash } from "bcryptjs";
@@ -83,6 +95,12 @@ export class UserController {
    *       400:
    *         description: Bad request
    */
+
+
+  /**
+   * Erstellt einen neuen Benutzer in der Datenbank
+   * Überprüft Pflichtfelder und hasht das Passwort
+   */
   public async createUser(req: Request, res: Response): Promise<void> {
     try {
       const { first_name, last_name, email, password } = req.body;
@@ -130,6 +148,12 @@ export class UserController {
    *       500:
    *         description: Server error
    */
+
+
+  /**
+  * Ruft alle Benutzer aus der Datenbank ab
+  * Wird nur für administrative Zwecke verwendet
+  */
   public async getAllUsers(req: Request, res: Response): Promise<void> {
     try {
       const users = await userService.getAllUsers();
@@ -167,6 +191,13 @@ export class UserController {
    *       500:
    *         description: Server error
    */
+
+
+
+  /**
+  * Findet einen Benutzer anhand seiner ID
+  * Prüft die Existenz und gibt die Benutzerdaten zurück
+  */
   public async getUserById(req: Request, res: Response): Promise<void> {
     try {
       const user = await userService.getUserById(Number(req.params.id));
@@ -229,6 +260,13 @@ export class UserController {
    *       404:
    *         description: User not found
    */
+
+
+
+  /**
+  * Aktualisiert Benutzerdaten (Name, E-Mail, Passwort)
+  * Hasht das neue Passwort, falls aktualisiert
+  */
   public async updateUser(req: Request, res: Response): Promise<void> {
     try {
       const { first_name, last_name, email, password } = req.body;
@@ -269,6 +307,13 @@ export class UserController {
    *       500:
    *         description: Server error
    */
+
+
+
+  /**
+  * Löscht einen Benutzer aus dem System
+  * Entfernt alle Benutzerdaten permanent
+  */
   public async deleteUser(req: Request, res: Response): Promise<void> {
     try {
       await userService.deleteUser(Number(req.params.id));
@@ -323,6 +368,12 @@ export class UserController {
    *               $ref: '#/components/schemas/User'
    *       400:
    *         description: Bad request - Email already exists or missing required fields
+   */
+
+
+  /**
+   * Registriert einen neuen Benutzer
+   * Prüft auf doppelte E-Mail-Adressen und Pflichtfelder
    */
   public async register(req: Request, res: Response): Promise<void> {
     try {
@@ -401,6 +452,12 @@ export class UserController {
    *         description: Unauthorized - Invalid email or password
    *       500:
    *         description: Server error
+   */
+
+
+  /**
+   * Authentifiziert einen Benutzer für den Login
+   * Vergleicht das eingereichte Passwort mit dem gespeicherten Hash
    */
   public async login(req: Request, res: Response): Promise<void> {
     try {

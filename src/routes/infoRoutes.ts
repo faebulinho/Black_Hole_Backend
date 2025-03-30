@@ -1,3 +1,4 @@
+// Routes für Info Endpoints, nur für zum Ausprobieren, unwichtig für Webseite
 import { Router } from "express";
 import { infoController } from "../controllers/infoController";
 

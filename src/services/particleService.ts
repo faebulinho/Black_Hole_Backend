@@ -1,3 +1,11 @@
+/**
+ * Partikel-Service für die Schwarze-Loch-Simulation
+ * 
+ * Diese Klasse bietet Datenzugriffsmethoden für Partikelobjekte (schwarze Löcher),
+ * die durch ihre physikalischen Eigenschaften (Masse und Spin) charakterisiert sind.
+ * Der Service implementiert die CRUD-Operationen über die Prisma-ORM-Schnittstelle.
+ */
+
 import { prisma } from "../app";
 
 export class ParticleService {

@@ -1,3 +1,16 @@
+/**
+ * Partikel-Controller für die Schwarze-Loch-Simulation
+ * 
+ * Dieser Controller verwaltet API-Endpunkte für Partikel, die schwarze Löcher repräsentieren.
+ * Die Partikel werden durch ihre physikalischen Eigenschaften charakterisiert:
+ * - 'a': Spin-Parameter des schwarzen Lochs (dimensionslose Drehimpulswert)
+ * - 'm': Masse des schwarzen Lochs (in Sonnenmassen)
+ * 
+ * Der Controller bietet CRUD-Operationen (Erstellen, Lesen, Aktualisieren, Löschen)
+ * für die Verwaltung von schwarzen Löchern in der Simulationsanwendung und
+ * enthält Swagger-Dokumentation für die automatische API-Spezifikationsgenerierung.
+ */
+
 import { Request, Response } from "express";
 import { particleService } from "./../services/particleService";
 
@@ -59,6 +72,13 @@ export class ParticleController {
    *       500:
    *         description: Server error
    */
+
+
+
+  /**
+   * Ruft alle Partikel aus der Datenbank ab
+   * Gibt eine Liste aller schwarzen Löcher mit ihren Eigenschaften zurück
+   */
   public async getAllParticles(req: Request, res: Response): Promise<void> {
     try {
       const particles = await particleService.getAllParticles();
@@ -95,6 +115,13 @@ export class ParticleController {
    *         description: Particle not found
    *       500:
    *         description: Server error
+   */
+
+
+
+  /**
+   * Findet ein schwarzes Loch anhand seiner ID
+   * Prüft die Existenz und gibt entweder die Daten oder eine 404-Meldung zurück
    */
   public async getParticleById(req: Request, res: Response): Promise<void> {
     try {
@@ -155,6 +182,14 @@ export class ParticleController {
    *               $ref: '#/components/schemas/Particle'
    *       400:
    *         description: Bad request
+   */
+
+
+
+
+  /* Erstellt ein neues schwarzes Loch mit den angegebenen Eigenschaften
+   * Validiert die Eingaben (Spin und Masse müssen angegeben sein)
+   * und speichert das neue Objekt in der Datenbank
    */
   public async createParticle(req: Request, res: Response): Promise<void> {
     try {
@@ -230,6 +265,12 @@ export class ParticleController {
    *       404:
    *         description: Particle not found
    */
+
+
+  /**
+   * Aktualisiert die Eigenschaften eines vorhandenen schwarzen Lochs
+   * Überschreibt die angegebenen Werte für Spin, Masse und/oder Namen
+   */
   public async updateParticle(req: Request, res: Response): Promise<void> {
     try {
       const particle = await particleService.updateParticle(
@@ -273,6 +314,12 @@ export class ParticleController {
    *         description: Particle not found
    *       500:
    *         description: Server error
+   */
+
+
+  /**
+   * Löscht ein schwarzes Loch aus der Datenbank
+   * Entfernt den Datensatz permanent anhand der ID
    */
   public async deleteParticle(req: Request, res: Response): Promise<void> {
     try {

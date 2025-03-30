@@ -1,3 +1,10 @@
+/**
+ * Hauptdatei der Express-Anwendung für die Black Hole Simulation API=> Wichtigste Datei
+ * 
+ * Konfiguriert den Express-Server mit Middleware, Routen und Swagger-Dokumentation.
+ * Verbindet die verschiedenen Komponenten der Anwendung und startet den Webserver.
+ */
+
 import express, { Express, Request, Response, NextFunction } from "express";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";

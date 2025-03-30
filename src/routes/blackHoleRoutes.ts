@@ -1,3 +1,7 @@
+/**
+ * Routen-Definition für den Zugriff auf Informationen über schwarze Löcher über den Endpunkt '/:name'.
+ */
+
 import { Router } from "express"; // Importiert den Router von Express für die Definition von Routen
 import { blackHoleController } from "../controllers/blackHoleController"; // Importiert den Controller, der die Logik für die Routen verarbeitet
 

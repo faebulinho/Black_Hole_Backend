@@ -1,3 +1,6 @@
+/**
+ * Definiert die API-Routen für CRUD-Operationen auf Partikel (schwarze Löcher), die physikalische Eigenschaften wie Masse und Spin besitzen.
+ */
 import { Router } from "express";
 import { particleController } from "../controllers/particleController";
 

@@ -1,3 +1,6 @@
+/**
+ * Definiert die API-Routen für die Benutzerverwaltung mit vollständigen CRUD-Operationen für Benutzerkonten der Schwarze-Loch-Simulationsanwendung.
+ */
 import { Router } from "express";
 import { userController } from "../controllers/userController";
 

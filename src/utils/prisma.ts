@@ -1,3 +1,10 @@
+/**
+ * Prisma Client Singleton für die Schwarze-Loch-Simulationsanwendung
+ * 
+ * Diese Datei konfiguriert eine einzelne Instanz des Prisma Clients für Datenbankzugriffe
+ * und verhindert die Erstellung mehrerer Instanzen während der Entwicklung. 
+ */
+
 import { PrismaClient } from '@prisma/client';
 
 // Prevent multiple instances of Prisma Client in development

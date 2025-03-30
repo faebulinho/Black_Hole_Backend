@@ -1,3 +1,12 @@
+/**
+ * Benutzer-Service für die Schwarze-Loch-Simulationsanwendung
+ * 
+ * Dieser Service bietet Datenzugriffsmethoden für Benutzerkonten,
+ * einschließlich Authentifizierung, Profilverwaltung und CRUD-Operationen.
+ * Er fungiert als Schnittstelle zwischen den Controllern und der Datenbank,
+ * wobei Prisma ORM für den Datenbankzugriff verwendet wird.
+ */
+
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();

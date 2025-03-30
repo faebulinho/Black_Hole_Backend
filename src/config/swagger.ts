@@ -1,3 +1,13 @@
+/**
+ * Swagger-Dokumentationsgenerator für die Black Hole Simulation API
+ * 
+ * Dieses Skript erzeugt automatisch Swagger/OpenAPI-Dokumentationsdateien.
+ * 
+ * Die Dokumentation wird sowohl im JSON- als auch im YAML-Format erstellt
+ * und in das Verzeichnis src/swagger gespeichert, um sie später in der
+ * Swagger-UI anzuzeigen oder für Client-Codegenerierung zu verwenden.
+ */
+
 import swaggerJsdoc from 'swagger-jsdoc';
 import fs from 'fs';
 import path from 'path';
